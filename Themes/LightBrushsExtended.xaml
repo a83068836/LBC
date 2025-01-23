@@ -1,0 +1,86 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:MLib_reskeys="clr-namespace:MLib.Themes;assembly=MLib">
+
+    <SolidColorBrush x:Key="EditorSearchHeightBackgroundBrush" Color="#e4d8c2" />
+    <Color x:Key="HighlightTextBlockBehavior">#f5cc84</Color>
+    <SolidColorBrush x:Key="IconBrush" Color="#865FC5" />
+    <SolidColorBrush x:Key="IconInactiveBrush" Color="#8F8F91" />
+    <SolidColorBrush x:Key="HeaderBackground" Color="#EEEEF2" />
+    <SolidColorBrush x:Key="StatusBarBackground" Color="#007ACC" />
+    <SolidColorBrush x:Key="StatusBarForeground" Color="White" />
+    <SolidColorBrush x:Key="SystemButtonsForeground" Color="Black" />
+    <SolidColorBrush x:Key="SystemButtonsInactiveForeground" Color="#8F8F91" />
+    <SolidColorBrush x:Key="SystemButtonsMouseOverBackground" Color="#FCFCFD" />
+    <SolidColorBrush x:Key="SystemButtonsMousePressedForeground" Color="White" />
+    <SolidColorBrush x:Key="SystemButtonsMousePressedBackground" Color="#007ACC" />
+    <SolidColorBrush x:Key="WindowForeground" Color="Black" />
+    <SolidColorBrush x:Key="WindowBorderBrush" Color="#9A9EB8" />
+    <SolidColorBrush x:Key="WindowInactiveBorderBrush" Color="#CBCDDA" />
+    <SolidColorBrush x:Key="ToolBarGripper" Color="#999999" />
+    <SolidColorBrush x:Key="ProjectNameForeground" Color="Black" />
+    <SolidColorBrush x:Key="ProjectNameInactiveForeground" Color="#929496" />
+    <SolidColorBrush x:Key="ProjectNameBackground" Color="#E0E3E6" />
+    <SolidColorBrush x:Key="ScrollViewerRectBackground" Color="#F5F5F5" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MLib_reskeys:ResourceKeys}, ResourceId=NormalBackgroundBrushKey}" Color="Transparent" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MLib_reskeys:ResourceKeys}, ResourceId=TopLevelHeaderMenuBackgroundKey}" Color="Transparent" />
+    <SolidColorBrush x:Key="EditorLineforegroundColor" Color="#C0C0C0" />
+    <SolidColorBrush x:Key="EditorLineforegroundCurrColor" Color="#000000" />
+
+    <BitmapImage x:Key="Image_OpenFile" UriSource="/LBC;component/Themes/Icons/Light/OpenFile.ico" />
+
+    <BitmapImage x:Key="Image_Copy" UriSource="/LBC;component/Themes/Icons/Light/Copy.ico" />
+    <BitmapImage x:Key="Image_Cut" UriSource="/LBC;component/Themes/Icons/Light/Cut.ico" />
+    <BitmapImage x:Key="Image_Paste" UriSource="/LBC;component/Themes/Icons/Light/Paste.ico" />
+
+    <BitmapImage x:Key="Image_Delete" UriSource="/LBC;component/Themes/Icons/Delete.ico" />
+
+    <BitmapImage x:Key="Image_Undo" UriSource="/LBC;component/Themes/Icons/Light/Undo.ico" />
+    <BitmapImage x:Key="Image_Redo" UriSource="/LBC;component/Themes/Icons/Light/Redo.ico" />
+
+    <BitmapImage x:Key="HighlightingOnOff" UriSource="/LBC;component/Themes/Icons/Light/desk-lamp.ico" />
+
+    <!-- Word Wrap -->
+    <BitmapImage x:Key="Image_WordWrap" UriSource="/LBC;component/Themes/Icons/Light/WordWrap.png" />
+
+    <!-- ShowLineNumbers appbar.list.png -->
+    <BitmapImage x:Key="Image_ShowLineNumbers" UriSource="/LBC;component/Themes/Icons/Light/ShowLineNumbers.png" />
+
+    <!-- Show end of line character in text editor -->
+    <BitmapImage x:Key="Image_EndOfLine" UriSource="/LBC;component/Themes/Icons/Light/ShowEndOfLine.png" />
+
+    <!-- Show Space character in text editor -->
+    <BitmapImage x:Key="Image_Space" UriSource="/LBC;component/Themes/Icons/Light/ShowSpaces.png" />
+
+    <!-- Show Tab character in text editor -->
+    <BitmapImage x:Key="Image_Tabs" UriSource="/LBC;component/Themes/Icons/Light/TabStop.png" />
+
+    <BitmapImage x:Key="Image_NewFile" UriSource="/LBC;component/Themes/Icons/Light/NewFile.png" />
+
+    <BitmapImage x:Key="Image_Openproject" UriSource="/LBC;component/Themes/Icons/Light/Openproject.png" />
+
+    <BitmapImage x:Key="Image_Save" UriSource="/LBC;component/Themes/Icons/Light/Save.png" />
+
+    <BitmapImage x:Key="Image_SaveAs" UriSource="/LBC;component/Themes/Icons/Light/SaveAs.png" />
+
+    <BitmapImage x:Key="Image_SaveAll" UriSource="/LBC;component/Themes/Icons/Light/SaveAll.png" />
+
+    <BitmapImage x:Key="Image_Comment" UriSource="/LBC;component/Themes/Icons/Light/comment.png" />
+
+    <BitmapImage x:Key="Image_Uncomment" UriSource="/LBC;component/Themes/Icons/Light/uncomment.png" />
+
+    <BitmapImage x:Key="CityImageFileText"    UriSource="/LBC;component/Themes/File/Light/fileText.png" />
+    <BitmapImage x:Key="CityImageIni"    UriSource="/LBC;component/Themes/File/Light/ini.png" />
+    <BitmapImage x:Key="CityImageRar"    UriSource="/LBC;component/Themes/File/Light/rar.png" />
+    <BitmapImage x:Key="CityImageZip"    UriSource="/LBC;component/Themes/File/Light/zip.png" />
+    <BitmapImage x:Key="CityImageHtml"    UriSource="/LBC;component/Themes/File/Light/html.png" />
+    <BitmapImage x:Key="CityImagePng"    UriSource="/LBC;component/Themes/File/Light/png.png" />
+    <BitmapImage x:Key="CityImageTxt"    UriSource="/LBC;component/Themes/File/Light/txt.png" />
+    <BitmapImage x:Key="CityImageDb"    UriSource="/LBC;component/Themes/File/Light/db.png" />
+    <BitmapImage x:Key="CityImageExcel"    UriSource="/LBC;component/Themes/File/Light/Excel.png" />
+    <BitmapImage x:Key="CityImageWord"    UriSource="/LBC;component/Themes/File/Light/Word.png" />
+    <BitmapImage x:Key="CityImagePdf"    UriSource="/LBC;component/Themes/File/Light/Pdf.png" />
+    <BitmapImage x:Key="CityImagePowerpoint"    UriSource="/LBC;component/Themes/File/Light/Powerpoint.png" />
+    <BitmapImage x:Key="Image_Back" UriSource="/LBC;component/Themes/Icons/Light/back.png" />
+    <BitmapImage x:Key="Image_Forward" UriSource="/LBC;component/Themes/Icons/Light/forward.png" />
+</ResourceDictionary>

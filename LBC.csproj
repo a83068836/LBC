@@ -1,0 +1,297 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x86</PlatformTarget>
+    <Version>1.0.0.2</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Img\新建.png" />
+    <None Remove="Resources\Img\问好.png" />
+    <None Remove="Resources\Number\a-1.png" />
+    <None Remove="Resources\Number\a-10.png" />
+    <None Remove="Resources\Number\a-2.png" />
+    <None Remove="Resources\Number\a-3.png" />
+    <None Remove="Resources\Number\a-4.png" />
+    <None Remove="Resources\Number\a-5.png" />
+    <None Remove="Resources\Number\a-6.png" />
+    <None Remove="Resources\Number\a-7.png" />
+    <None Remove="Resources\Number\a-8.png" />
+    <None Remove="Resources\Number\a-9.png" />
+    <None Remove="Resources\toolbox\图片.png" />
+    <None Remove="Resources\toolbox\音乐.png" />
+    <None Remove="Resources\toolbox\默认.png" />
+    <None Remove="Themes\CascadiaCode.ttf" />
+    <None Remove="Themes\CommitMono-400-Regular.otf" />
+    <None Remove="Themes\document.png" />
+    <None Remove="Themes\File\Dark\db.png" />
+    <None Remove="Themes\File\Dark\Excel.png" />
+    <None Remove="Themes\File\Dark\fileText.png" />
+    <None Remove="Themes\File\Dark\html.png" />
+    <None Remove="Themes\File\Dark\ini.png" />
+    <None Remove="Themes\File\Dark\Pdf.png" />
+    <None Remove="Themes\File\Dark\png.png" />
+    <None Remove="Themes\File\Dark\Powerpoint.png" />
+    <None Remove="Themes\File\Dark\rar.png" />
+    <None Remove="Themes\File\Dark\txt.png" />
+    <None Remove="Themes\File\Dark\Word.png" />
+    <None Remove="Themes\File\Dark\zip.png" />
+    <None Remove="Themes\File\Light\db.png" />
+    <None Remove="Themes\File\Light\Excel.png" />
+    <None Remove="Themes\File\Light\fileText.png" />
+    <None Remove="Themes\File\Light\html.png" />
+    <None Remove="Themes\File\Light\ini.png" />
+    <None Remove="Themes\File\Light\Pdf.png" />
+    <None Remove="Themes\File\Light\png.png" />
+    <None Remove="Themes\File\Light\Powerpoint.png" />
+    <None Remove="Themes\File\Light\rar.png" />
+    <None Remove="Themes\File\Light\txt.png" />
+    <None Remove="Themes\File\Light\Word.png" />
+    <None Remove="Themes\File\Light\zip.png" />
+    <None Remove="Themes\Icons\Dark\back.png" />
+    <None Remove="Themes\Icons\Dark\comment.png" />
+    <None Remove="Themes\Icons\Dark\Copy.ico" />
+    <None Remove="Themes\Icons\Dark\Copy_16x.svg" />
+    <None Remove="Themes\Icons\Dark\Cut.ico" />
+    <None Remove="Themes\Icons\Dark\Cut_16x.svg" />
+    <None Remove="Themes\Icons\Dark\desk-lamp.ico" />
+    <None Remove="Themes\Icons\Dark\desk-lamp.svg" />
+    <None Remove="Themes\Icons\Dark\forward.png" />
+    <None Remove="Themes\Icons\Dark\NewFile.png" />
+    <None Remove="Themes\Icons\Dark\OpenFile.ico" />
+    <None Remove="Themes\Icons\Dark\OpenFile_16x.svg" />
+    <None Remove="Themes\Icons\Dark\Openproject.png" />
+    <None Remove="Themes\Icons\Dark\Paste.ico" />
+    <None Remove="Themes\Icons\Dark\Paste_16x.svg" />
+    <None Remove="Themes\Icons\Dark\Redo.ico" />
+    <None Remove="Themes\Icons\Dark\Redo_16x.svg" />
+    <None Remove="Themes\Icons\Dark\Save.png" />
+    <None Remove="Themes\Icons\Dark\SaveAll.png" />
+    <None Remove="Themes\Icons\Dark\SaveAs.png" />
+    <None Remove="Themes\Icons\Dark\ShowEndOfLine.ico" />
+    <None Remove="Themes\Icons\Dark\ShowEndOfLine.png" />
+    <None Remove="Themes\Icons\Dark\ShowEndOfLine.svg" />
+    <None Remove="Themes\Icons\Dark\ShowLineNumbers.ico" />
+    <None Remove="Themes\Icons\Dark\ShowLineNumbers.png" />
+    <None Remove="Themes\Icons\Dark\ShowLineNumbers_16x.svg" />
+    <None Remove="Themes\Icons\Dark\ShowSpaces.ico" />
+    <None Remove="Themes\Icons\Dark\ShowSpaces.png" />
+    <None Remove="Themes\Icons\Dark\ShowSpaces_16x.svg" />
+    <None Remove="Themes\Icons\Dark\TabStop.ico" />
+    <None Remove="Themes\Icons\Dark\TabStop.png" />
+    <None Remove="Themes\Icons\Dark\TabStop_16x.svg" />
+    <None Remove="Themes\Icons\Dark\uncomment.png" />
+    <None Remove="Themes\Icons\Dark\Undo.ico" />
+    <None Remove="Themes\Icons\Dark\Undo_16x.svg" />
+    <None Remove="Themes\Icons\Dark\WordWrap.ico" />
+    <None Remove="Themes\Icons\Dark\WordWrap.png" />
+    <None Remove="Themes\Icons\Dark\WordWrap_16x.svg" />
+    <None Remove="Themes\Icons\Delete.ico" />
+    <None Remove="Themes\Icons\Delete_16x.svg" />
+    <None Remove="Themes\Icons\Light\back.png" />
+    <None Remove="Themes\Icons\Light\comment.png" />
+    <None Remove="Themes\Icons\Light\Copy.ico" />
+    <None Remove="Themes\Icons\Light\Copy_16x.svg" />
+    <None Remove="Themes\Icons\Light\Cut.ico" />
+    <None Remove="Themes\Icons\Light\Cut_16x.svg" />
+    <None Remove="Themes\Icons\Light\desk-lamp.ico" />
+    <None Remove="Themes\Icons\Light\desk-lamp.svg" />
+    <None Remove="Themes\Icons\Light\forward.png" />
+    <None Remove="Themes\Icons\Light\NewFile.png" />
+    <None Remove="Themes\Icons\Light\OpenFile.ico" />
+    <None Remove="Themes\Icons\Light\OpenFile_16x.svg" />
+    <None Remove="Themes\Icons\Light\Openproject.png" />
+    <None Remove="Themes\Icons\Light\Paste.ico" />
+    <None Remove="Themes\Icons\Light\Paste_16x.svg" />
+    <None Remove="Themes\Icons\Light\Redo.ico" />
+    <None Remove="Themes\Icons\Light\Redo_16x.svg" />
+    <None Remove="Themes\Icons\Light\Save.png" />
+    <None Remove="Themes\Icons\Light\SaveAll.png" />
+    <None Remove="Themes\Icons\Light\SaveAs.png" />
+    <None Remove="Themes\Icons\Light\ShowEndOfLine.ico" />
+    <None Remove="Themes\Icons\Light\ShowEndOfLine.png" />
+    <None Remove="Themes\Icons\Light\ShowEndOfLine.svg" />
+    <None Remove="Themes\Icons\Light\ShowLineNumbers.ico" />
+    <None Remove="Themes\Icons\Light\ShowLineNumbers.png" />
+    <None Remove="Themes\Icons\Light\ShowLineNumbers_16x.svg" />
+    <None Remove="Themes\Icons\Light\ShowSpaces.ico" />
+    <None Remove="Themes\Icons\Light\ShowSpaces.png" />
+    <None Remove="Themes\Icons\Light\ShowSpaces_16x.svg" />
+    <None Remove="Themes\Icons\Light\TabStop.ico" />
+    <None Remove="Themes\Icons\Light\TabStop.png" />
+    <None Remove="Themes\Icons\Light\TabStop_16x.svg" />
+    <None Remove="Themes\Icons\Light\uncomment.png" />
+    <None Remove="Themes\Icons\Light\Undo.ico" />
+    <None Remove="Themes\Icons\Light\Undo_16x.svg" />
+    <None Remove="Themes\Icons\Light\WordWrap.ico" />
+    <None Remove="Themes\Icons\Light\WordWrap.png" />
+    <None Remove="Themes\Icons\Light\WordWrap_16x.svg" />
+    <None Remove="Themes\Icons\增加.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autoupdater.NET.Official" Version="1.8.5" />
+    <PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" />
+    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.72.1" />
+    <PackageReference Include="Dirkster.MLib" Version="1.3.1.2" />
+    <PackageReference Include="HandyControl" Version="3.5.1" />
+    <PackageReference Include="LightImage.DragDrop.Wpf" Version="0.5.5" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.9.1" />
+    <PackageReference Include="Magick.NET.Core" Version="13.9.1" />
+    <PackageReference Include="Masuit.Tools.Core" Version="2024.4.2" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
+    <PackageReference Include="SqlSugar.AccessCore" Version="5.10.4.159" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.153-preview18" />
+    <PackageReference Include="System.Management" Version="9.0.0-preview.3.24172.9" />
+    <PackageReference Include="Tencent.QCloud.Cos.Sdk" Version="5.4.37" />
+    <PackageReference Include="TencentCloudSDK.Common" Version="3.0.1020" />
+    <PackageReference Include="WebSocketSharp" Version="1.0.3-rc11" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Components\FilterTreeView\FilterTreeViewLib\FilterTreeViewLib.csproj" />
+    <ProjectReference Include="..\Components\HL\HL.csproj" />
+    <ProjectReference Include="..\Components\ServiceLocator\ServiceLocator.csproj" />
+    <ProjectReference Include="..\Components\Settings\SettingsModel\SettingsModel.csproj" />
+    <ProjectReference Include="..\Components\Settings\Settings\Settings.csproj" />
+    <ProjectReference Include="..\Components\TextEditLib\TextEditLib.csproj" />
+    <ProjectReference Include="..\Components\Win32\Win32.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Data.SQLite">
+      <HintPath>bin\Debug\net8.0-windows7.0\System.Data.SQLite.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Img\新建.png" />
+    <Resource Include="Resources\Img\问好.png" />
+    <Resource Include="Resources\Number\a-1.png" />
+    <Resource Include="Resources\Number\a-10.png" />
+    <Resource Include="Resources\Number\a-2.png" />
+    <Resource Include="Resources\Number\a-3.png" />
+    <Resource Include="Resources\Number\a-4.png" />
+    <Resource Include="Resources\Number\a-5.png" />
+    <Resource Include="Resources\Number\a-6.png" />
+    <Resource Include="Resources\Number\a-7.png" />
+    <Resource Include="Resources\Number\a-8.png" />
+    <Resource Include="Resources\Number\a-9.png" />
+    <Resource Include="Resources\toolbox\图片.png" />
+    <Resource Include="Resources\toolbox\音乐.png" />
+    <Resource Include="Resources\toolbox\默认.png" />
+    <Resource Include="Themes\CascadiaCode.ttf" />
+    <Resource Include="Themes\CommitMono-400-Regular.otf" />
+    <Resource Include="Themes\document.png" />
+    <Resource Include="Themes\File\Dark\db.png" />
+    <Resource Include="Themes\File\Dark\Excel.png" />
+    <Resource Include="Themes\File\Dark\fileText.png" />
+    <Resource Include="Themes\File\Dark\html.png" />
+    <Resource Include="Themes\File\Dark\ini.png" />
+    <Resource Include="Themes\File\Dark\Pdf.png" />
+    <Resource Include="Themes\File\Dark\png.png" />
+    <Resource Include="Themes\File\Dark\Powerpoint.png" />
+    <Resource Include="Themes\File\Dark\rar.png" />
+    <Resource Include="Themes\File\Dark\txt.png" />
+    <Resource Include="Themes\File\Dark\Word.png" />
+    <Resource Include="Themes\File\Dark\zip.png" />
+    <Resource Include="Themes\File\Light\db.png" />
+    <Resource Include="Themes\File\Light\Excel.png" />
+    <Resource Include="Themes\File\Light\fileText.png" />
+    <Resource Include="Themes\File\Light\html.png" />
+    <Resource Include="Themes\File\Light\ini.png" />
+    <Resource Include="Themes\File\Light\Pdf.png" />
+    <Resource Include="Themes\File\Light\png.png" />
+    <Resource Include="Themes\File\Light\Powerpoint.png" />
+    <Resource Include="Themes\File\Light\rar.png" />
+    <Resource Include="Themes\File\Light\txt.png" />
+    <Resource Include="Themes\File\Light\Word.png" />
+    <Resource Include="Themes\File\Light\zip.png" />
+    <Resource Include="Themes\Icons\Dark\back.png" />
+    <Resource Include="Themes\Icons\Dark\comment.png" />
+    <Resource Include="Themes\Icons\Dark\Copy.ico" />
+    <Resource Include="Themes\Icons\Dark\Copy_16x.svg" />
+    <Resource Include="Themes\Icons\Dark\Cut.ico" />
+    <Resource Include="Themes\Icons\Dark\Cut_16x.svg" />
+    <Resource Include="Themes\Icons\Dark\desk-lamp.ico" />
+    <Resource Include="Themes\Icons\Dark\desk-lamp.svg" />
+    <Resource Include="Themes\Icons\Dark\forward.png" />
+    <Resource Include="Themes\Icons\Dark\NewFile.png" />
+    <Resource Include="Themes\Icons\Dark\OpenFile.ico" />
+    <Resource Include="Themes\Icons\Dark\OpenFile_16x.svg" />
+    <Resource Include="Themes\Icons\Dark\Openproject.png" />
+    <Resource Include="Themes\Icons\Dark\Paste.ico" />
+    <Resource Include="Themes\Icons\Dark\Paste_16x.svg" />
+    <Resource Include="Themes\Icons\Dark\Redo.ico" />
+    <Resource Include="Themes\Icons\Dark\Redo_16x.svg" />
+    <Resource Include="Themes\Icons\Dark\Save.png" />
+    <Resource Include="Themes\Icons\Dark\SaveAll.png" />
+    <Resource Include="Themes\Icons\Dark\SaveAs.png" />
+    <Resource Include="Themes\Icons\Dark\ShowEndOfLine.ico" />
+    <Resource Include="Themes\Icons\Dark\ShowEndOfLine.png" />
+    <Resource Include="Themes\Icons\Dark\ShowEndOfLine.svg" />
+    <Resource Include="Themes\Icons\Dark\ShowLineNumbers.ico" />
+    <Resource Include="Themes\Icons\Dark\ShowLineNumbers.png" />
+    <Resource Include="Themes\Icons\Dark\ShowLineNumbers_16x.svg" />
+    <Resource Include="Themes\Icons\Dark\ShowSpaces.ico" />
+    <Resource Include="Themes\Icons\Dark\ShowSpaces.png" />
+    <Resource Include="Themes\Icons\Dark\ShowSpaces_16x.svg" />
+    <Resource Include="Themes\Icons\Dark\TabStop.ico" />
+    <Resource Include="Themes\Icons\Dark\TabStop.png" />
+    <Resource Include="Themes\Icons\Dark\TabStop_16x.svg" />
+    <Resource Include="Themes\Icons\Dark\uncomment.png" />
+    <Resource Include="Themes\Icons\Dark\Undo.ico" />
+    <Resource Include="Themes\Icons\Dark\Undo_16x.svg" />
+    <Resource Include="Themes\Icons\Dark\WordWrap.ico" />
+    <Resource Include="Themes\Icons\Dark\WordWrap.png" />
+    <Resource Include="Themes\Icons\Dark\WordWrap_16x.svg" />
+    <Resource Include="Themes\Icons\Delete.ico" />
+    <Resource Include="Themes\Icons\Delete_16x.svg" />
+    <Resource Include="Themes\Icons\Light\back.png" />
+    <Resource Include="Themes\Icons\Light\comment.png" />
+    <Resource Include="Themes\Icons\Light\Copy.ico" />
+    <Resource Include="Themes\Icons\Light\Copy_16x.svg" />
+    <Resource Include="Themes\Icons\Light\Cut.ico" />
+    <Resource Include="Themes\Icons\Light\Cut_16x.svg" />
+    <Resource Include="Themes\Icons\Light\desk-lamp.ico" />
+    <Resource Include="Themes\Icons\Light\desk-lamp.svg" />
+    <Resource Include="Themes\Icons\Light\forward.png" />
+    <Resource Include="Themes\Icons\Light\NewFile.png" />
+    <Resource Include="Themes\Icons\Light\OpenFile.ico" />
+    <Resource Include="Themes\Icons\Light\OpenFile_16x.svg" />
+    <Resource Include="Themes\Icons\Light\Openproject.png" />
+    <Resource Include="Themes\Icons\Light\Paste.ico" />
+    <Resource Include="Themes\Icons\Light\Paste_16x.svg" />
+    <Resource Include="Themes\Icons\Light\Redo.ico" />
+    <Resource Include="Themes\Icons\Light\Redo_16x.svg" />
+    <Resource Include="Themes\Icons\Light\Save.png" />
+    <Resource Include="Themes\Icons\Light\SaveAll.png" />
+    <Resource Include="Themes\Icons\Light\SaveAs.png" />
+    <Resource Include="Themes\Icons\Light\ShowEndOfLine.ico" />
+    <Resource Include="Themes\Icons\Light\ShowEndOfLine.png" />
+    <Resource Include="Themes\Icons\Light\ShowEndOfLine.svg" />
+    <Resource Include="Themes\Icons\Light\ShowLineNumbers.ico" />
+    <Resource Include="Themes\Icons\Light\ShowLineNumbers.png" />
+    <Resource Include="Themes\Icons\Light\ShowLineNumbers_16x.svg" />
+    <Resource Include="Themes\Icons\Light\ShowSpaces.ico" />
+    <Resource Include="Themes\Icons\Light\ShowSpaces.png" />
+    <Resource Include="Themes\Icons\Light\ShowSpaces_16x.svg" />
+    <Resource Include="Themes\Icons\Light\TabStop.ico" />
+    <Resource Include="Themes\Icons\Light\TabStop.png" />
+    <Resource Include="Themes\Icons\Light\TabStop_16x.svg" />
+    <Resource Include="Themes\Icons\Light\uncomment.png" />
+    <Resource Include="Themes\Icons\Light\Undo.ico" />
+    <Resource Include="Themes\Icons\Light\Undo_16x.svg" />
+    <Resource Include="Themes\Icons\Light\WordWrap.ico" />
+    <Resource Include="Themes\Icons\Light\WordWrap.png" />
+    <Resource Include="Themes\Icons\Light\WordWrap_16x.svg" />
+    <Resource Include="Themes\Icons\增加.png" />
+  </ItemGroup>
+
+</Project>

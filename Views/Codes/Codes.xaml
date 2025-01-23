@@ -1,0 +1,59 @@
+﻿<hc:GlowWindow  xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"  x:Class="LBC.View.Codes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:AvDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+        mc:Ignorable="d"
+        Title="代码批量生成" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+                 
+                
+                >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ToolBarTray Grid.Row="0" VerticalAlignment="Center">
+            <ToolBar Name="toolbar1" 
+    ClipToBounds="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Button 
+      ToolTip="增加变量"
+      Click="menu01_Click"
+       >
+                    <Image Source="/Resources/Img/新建.png" Width="16" Height="16" />
+                </Button>
+                <Separator />
+            </ToolBar>
+        </ToolBarTray>
+        <DockingManager Grid.Row="1" x:Name="DockManager"  Loaded="DockManager_Loaded"
+                               >
+            <DockingManager.Theme>
+                <Vs2013DarkTheme/>
+            </DockingManager.Theme>
+            <LayoutRoot x:Name="Root">
+                <LayoutPanel x:Name="Panel" >
+                    <LayoutAnchorablePaneGroup x:Name="LeftAnchorableGroup" DockWidth="350" Orientation="Vertical" >
+                        <LayoutAnchorablePane x:Name="LeftPane" DockHeight="*" DockWidth="350">
+
+                            <LayoutAnchorable x:Name="Solution" Title="代码预览" ContentId="Solution"  CanClose = "False" CanHide = "false" CanAutoHide = "false">
+                                <Frame x:Name="codeLeft" NavigationUIVisibility="Hidden"/>
+                            </LayoutAnchorable>
+                        </LayoutAnchorablePane>
+                    </LayoutAnchorablePaneGroup>
+                    <LayoutDocumentPaneGroup x:Name="DocumentGroup" DockHeight="*" DockWidth="*">
+                        <LayoutDocumentPane x:Name="DocumentPane" DockHeight="Auto" DockWidth="Auto">
+                            <!--<AvDock:LayoutDocument ContentId="document1" Content="111" IsActive="False" Title="123" IconSource="/Images/logo.ico"  />-->
+                        </LayoutDocumentPane>
+                    </LayoutDocumentPaneGroup>
+
+                </LayoutPanel>
+
+
+            </LayoutRoot>
+        </DockingManager>
+
+    </Grid>
+</hc:GlowWindow>

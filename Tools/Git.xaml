@@ -1,0 +1,93 @@
+<hc:Window  xmlns:hc="https://handyorg.github.io/handycontrol" x:Class="LBC.Tools.Git"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LBC.Tools"
+            xmlns:conv="clr-namespace:LBC.Converters"
+        mc:Ignorable="d"
+			WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+ Background="{DynamicResource RegionBrush}"
+        Title="Git配置" Height="370" Width="450">
+    <Grid>
+        <Grid.Resources>
+            <conv:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+            <ControlTemplate x:Key="ProgressBarTemplate" TargetType="ProgressBar">
+                <Grid>
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10">
+                        <Grid>
+                            <Rectangle x:Name="PART_Indicator" HorizontalAlignment="Left"
+                                   Width="{TemplateBinding ActualWidth}"
+                                   Fill="{TemplateBinding Foreground}"
+                                   RadiusX="10" RadiusY="10" />
+                        </Grid>
+                    </Border>
+                    <TextBlock HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                    Foreground="{TemplateBinding Foreground}">
+                        <Run Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0}}" />
+            <Run Text="/" />
+            <Run Text="{Binding Maximum, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0}}" />
+            <Run Text=" (" />
+            <Run Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:P0}}" />
+            <Run Text=")" />
+                    </TextBlock>
+                </Grid>
+            </ControlTemplate>
+        </Grid.Resources>
+        <StackPanel Visibility="{Binding ProgressBarVisible}">
+			<DockPanel>
+                <TextBox Width="350" Text="{Binding SecretId}" hc:InfoElement.TitleWidth="120" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="腾讯云 SecretId" hc:InfoElement.Placeholder=""  Style="{StaticResource TextBoxExtend}" Margin="15,10,0,0"/>
+                <Button Margin="0,10,0,0" BorderThickness="0" Width="16" Height="16" ToolTip=" 获取 API 密钥请参照 https://console.cloud.tencent.com/cam/capi" Click="Button_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Resources/Img/问好.png"/>
+                    </Button.Background>
+                </Button>
+            </DockPanel>
+			<DockPanel>
+                <TextBox Width="350" Text="{Binding SecretKey}" hc:InfoElement.TitleWidth="120" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="腾讯云 SecretKey" hc:InfoElement.Placeholder=""  Style="{StaticResource TextBoxExtend}" Margin="15,10,0,0"/>
+                <Button Margin="0,10,0,0" BorderThickness="0" Width="16" Height="16" ToolTip=" 获取 API 密钥请参照 https://console.cloud.tencent.com/cam/capi" Click="Button_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Resources/Img/问好.png"/>
+                    </Button.Background>
+                </Button>
+            </DockPanel>
+			<DockPanel HorizontalAlignment="Left">
+                <hc:ComboBox Width="350" ItemsSource="{Binding ComboBoxItems}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" DisplayMemberPath="Name" hc:InfoElement.TitleWidth="120" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="存储桶列表" hc:InfoElement.Placeholder=""  Style="{StaticResource ComboBoxExtend}" Margin="15,10,0,0"/>
+			</DockPanel>
+            <DockPanel HorizontalAlignment="Left">
+                <TextBox Width="350" Text="{Binding Appid}" hc:InfoElement.TitleWidth="120" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="Appid" hc:InfoElement.Placeholder=""  Style="{StaticResource TextBoxExtend}" Margin="15,10,0,0"/>
+			</DockPanel>
+            <DockPanel HorizontalAlignment="Left">
+                <TextBox Width="350" Text="{Binding servermac}" hc:InfoElement.TitleWidth="120" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="服务器机器码" hc:InfoElement.Placeholder=""  Style="{StaticResource TextBoxExtend}" Margin="15,10,0,0"/>
+            </DockPanel>
+            <DockPanel HorizontalAlignment="Center">
+				<Button Content="获取存储桶列表" Margin="20" Style="{StaticResource ButtonSuccess}" Command="{Binding SaveCommand}"/>
+				<Button Content="保存配置" Margin="20" Style="{StaticResource ButtonSuccess}" Command="{Binding Save1Command}"/>
+				<Button Content="创建存储桶" Margin="20" Style="{StaticResource ButtonSuccess}" Command="{Binding Save2Command}"/>
+			</DockPanel>
+            <DockPanel HorizontalAlignment="Center" Margin="0,-20,0,0">
+                <Button Content="本地全部上传云端" Margin="20" Style="{StaticResource ButtonDanger}" Command="{Binding upCommand}"/>
+                <Button Content="云端保存本地" Margin="20" Style="{StaticResource ButtonPrimary}" Command="{Binding down1Command}"/>
+            </DockPanel>
+            <DockPanel HorizontalAlignment="Center" Margin="0,-20,0,0">
+                <Button Content="服务器全部上传云端" Margin="20" Style="{StaticResource ButtonDanger}" Command="{Binding upServerCommand}"/>
+                <Button Content="云端保存服务器" Margin="20" Style="{StaticResource ButtonPrimary}" Command="{Binding down1Command}"/>
+            </DockPanel>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Center" Visibility="{Binding ProgressBarVisible,Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+            <ProgressBar x:Name="progressBar" Style="{StaticResource ProgressBarSuccess}" Margin="30,0,30,0" Value="{Binding ProgressBarValue}"  Maximum="{Binding ProgressBarValueMax}">
+            </ProgressBar>
+            <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-150,-20,0,0" >
+                <Run Text=" (" />
+                <Run Text="{Binding ElementName=progressBar, Path=Value, StringFormat={}{0}}" />
+    <Run Text="/" />
+    <Run Text="{Binding ElementName=progressBar, Path=Maximum, StringFormat={}{0}}" />
+    <Run Text=")" />
+            </TextBlock>
+        </StackPanel>
+	</Grid>
+</hc:Window>

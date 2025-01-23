@@ -1,0 +1,446 @@
+<hc:Window  xmlns:hc="https://handyorg.github.io/handycontrol" x:Class="LBC.Views.Sql"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:lconv="clr-namespace:LBC.Converters"
+            xmlns:viewModels="clr-namespace:LBC.Views"
+        xmlns:local="clr-namespace:LBC.ViewModels" 
+            xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+         mc:Ignorable="d"
+        Title="数据库" Height="450" Width="800"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        RenderOptions.ClearTypeHint="Enabled"
+        RenderOptions.BitmapScalingMode="HighQuality"
+        SnapsToDevicePixels="True" WindowState="Maximized"
+            
+    >
+    <hc:Window.Resources>
+        <lconv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <lconv:CheckBoxMultiValueConverter  x:Key="CheckBoxMultiValueConverter"/>
+    </hc:Window.Resources>
+   
+    <hc:Interaction.Triggers>
+        <hc:EventTrigger EventName="Loaded">
+            <hc:InvokeCommandAction Command="{Binding WinLoadedCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+        </hc:EventTrigger>
+    </hc:Interaction.Triggers>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <WrapPanel VerticalAlignment="Center" Grid.Row="0" Orientation="Horizontal">
+                <CheckBox x:Name="checkBoxToggle" Content="中文切换" Margin="10,0,5,0" 
+          Command="{Binding DataContext.Changecolumn1Clicked, RelativeSource={RelativeSource AncestorType=Window}}" 
+          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                <CheckBox Content="显示扩展栏" Margin="10,0,5,0" x:Name="flqx">
+                </CheckBox>
+                <Button Content="分类全显" Style="{StaticResource ButtonPrimary.Small}" Margin="10,0,5,0" />
+                <TextBlock Text="搜索类型:" Margin="10,0,5,0" VerticalAlignment="Center"/>
+                <ComboBox Style="{StaticResource ComboBox.Small}" Margin="0,0,5,0" SelectedIndex="0">
+                    <ComboBoxItem Tag="0" Content="模糊"/>
+                    <ComboBoxItem Tag="1" Content="字段"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding DataContext.SelectionChangedCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                                   CommandParameter="{Binding Path=SelectedItem.Tag,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+                <ComboBox Visibility="{Binding Zdvisibility}" x:Name="zd" Style="{StaticResource ComboBox.Small}" Margin="0,0,5,0" ItemsSource="{Binding ZdItemsSource}" SelectedIndex="0" DisplayMemberPath="Name">
+                </ComboBox>
+                <hc:TextBox Style="{StaticResource TextBox.Small}" Width="200" Margin="0,0,5,0" x:Name="TB_SearchToolbox" Text="{Binding DataContext.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=Window}}">
+                    <hc:Interaction.Triggers>
+                        <hc:EventTrigger EventName="TextChanged">
+                            <hc:InvokeCommandAction Command="{Binding SetTBTextChanged}" CommandParameter="{Binding SelectedValue,ElementName=zd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </hc:EventTrigger>
+                    </hc:Interaction.Triggers>
+                </hc:TextBox>
+                <Button Content="清空" Style="{StaticResource ButtonDanger.Small}" Command="{Binding Qingli1Command}"/>
+            </WrapPanel>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <WrapPanel Visibility="{Binding IsChecked,Converter={StaticResource BoolToVisibilityConverter},ElementName=flqx}" Orientation="Horizontal" Width="250" Margin="10,0,5,0" x:Name="DrawerLeft" Grid.Column="0">
+                    <Grid Width="250">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="200"/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0">
+                            <ListBox ItemsSource="{Binding DataContext.CategoryItemList, 
+                                RelativeSource={RelativeSource AncestorType=Window}}"  
+                                     ScrollViewer.CanContentScroll="False" 
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                     Style="{StaticResource ListBox.Small}">
+                                
+                            </ListBox>
+                        </DockPanel>
+                        
+                        <hc:TabControl Grid.Row="1" Style="{StaticResource TabControlInLine}">
+                            <hc:TabItem Header="装备类">
+                                <WrapPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                    <UniformGrid Columns="3">
+                                        <CheckBox Content="武器" Tag="5,6" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="头盔" Tag="15"  Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="斗笠面巾" Tag="16"  Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="男衣服" Tag="10" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="女衣服" Tag="11" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="勋章蜡烛" Tag="30" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="项链" Tag="19,20,21" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="手镯" Tag="24,26" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="戒指" Tag="22,23" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="腰带" Tag="64" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="靴子" Tag="62" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="石头" Tag="63" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="马牌" Tag="28" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="盾牌" Tag="12" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="军鼓" Tag="65" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="毒符" Tag="25" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="翅膀" Tag="29" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="称号" Tag="70,71,72,73,74" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="气血石" Tag="53" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="灵玉" Tag="90" Command="{Binding SetTypeChanged}">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                    </UniformGrid>
+                                </WrapPanel>
+                            </hc:TabItem>
+                            <hc:TabItem Header="触发类">
+                                <WrapPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                    <UniformGrid Columns="3">
+                                        <CheckBox Content="双击触发" Tag="2,31" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="药品" Tag="0" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="卷轴" Tag="3" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="技能书" Tag="4" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="食物" Tag="1" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="镶嵌宝石" Tag="46,55,56,57,58,59" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="杂物" Tag="41,42,43,44,45" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="聚灵珠" Tag="49" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                    </UniformGrid>
+                                </WrapPanel>
+                            </hc:TabItem>
+                            <hc:TabItem Header="时装生肖类">
+                                <WrapPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                    <UniformGrid Columns="3">
+                                        <CheckBox Content="时装武器" Tag="68,69" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="时装(男)" Tag="66" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="时装(女)" Tag="67" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="时装头盔" Tag="78" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="时装勋章" Tag="83" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="时装项链" Tag="75,76,77" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="时装手镯" Tag="79,80" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="时装戒指" Tag="81,82" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="时装腰带" Tag="84,85" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="时装靴子" Tag="86,87" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                        <CheckBox Content="时装宝石" Tag="88,89" Command="{Binding SetTypeChanged}" Margin="0,5,0,5">
+                                            <CheckBox.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CheckBoxMultiValueConverter}">
+                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                                                </MultiBinding>
+                                            </CheckBox.CommandParameter>
+                                        </CheckBox>
+                                    </UniformGrid>
+                                </WrapPanel>
+                            </hc:TabItem>
+                           </hc:TabControl>
+                    </Grid>
+                </WrapPanel>
+                <DataGrid Width="auto" Style="{StaticResource DataGrid.Small}" x:Name="dgTest" ItemsSource="{Binding Orders}" Grid.Column="1"
+                          SelectedItem="{Binding dgTestSelectedOrder, Mode=TwoWay}"
+                          
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="False" 
+                  CanUserDeleteRows="False" 
+                  ColumnWidth="auto" 
+                  ColumnHeaderHeight="30" 
+                  RowHeight="30" 
+                  SelectionUnit="Cell"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  VirtualizingPanel.IsContainerVirtualizable="True"
+                  EnableColumnVirtualization="True"
+                  EnableRowVirtualization="True"
+                  ScrollViewer.CanContentScroll="True"
+                  SnapsToDevicePixels="True"
+                  >
+                    <hc:Interaction.Triggers>
+                        <hc:EventTrigger EventName="SelectedCellsChanged">
+                            <hc:InvokeCommandAction Command="{Binding dgTestRowClicked}" CommandParameter="{Binding SelectedCells, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                        </hc:EventTrigger>
+                    </hc:Interaction.Triggers>   
+                </DataGrid>
+            </Grid>
+        </Grid>
+    </Grid>
+</hc:Window>

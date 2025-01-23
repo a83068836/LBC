@@ -1,0 +1,106 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:avalonEdit="clr-namespace:TextEditLib;assembly=TextEditLib">
+    <Style x:Key="GeneralTextStyle" TargetType="TextElement">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+    </Style>
+    <!-- 设置全局字体样式 -->
+    <!--<Style TargetType="{x:Type TextElement}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="Black"/>
+    </Style>-->
+    <Style TargetType="{x:Type avalonEdit:TextEdit}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+        <!--<Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="Black"/>-->
+    </Style>
+    <!--<Style TargetType="{x:Type DataGrid}">
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        --><!-- 尝试设置一些可能影响动画的属性为固定值 --><!--
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="RenderTransform" Value="Identity" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor" />
+    </Style>-->
+    <!--<Style TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+        
+    </Style>
+
+    <Style TargetType="{x:Type Label}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+        
+    </Style>
+
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+        
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+       
+    </Style>
+
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+        
+    </Style>
+
+    <Style TargetType="{x:Type CheckBox}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+       
+    </Style>
+
+    <Style TargetType="{x:Type ListBoxItem}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+       
+    </Style>
+
+    <Style TargetType="{x:Type ListBox}">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+                   
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ListView}">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+                    
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type MenuItem}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+        
+    </Style>
+
+    <Style TargetType="{x:Type RadioButton}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+       
+    </Style>
+
+    <Style TargetType="{x:Type PasswordBox}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+      
+    </Style>
+
+    <Style TargetType="{x:Type RichTextBox}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/LBC;component/Themes/CommitMono-400-Regular.otf#CommitMono"/>
+       
+    </Style>-->
+
+</ResourceDictionary>

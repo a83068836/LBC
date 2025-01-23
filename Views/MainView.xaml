@@ -1,0 +1,731 @@
+﻿<hc:Window 
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    x:Class="LBC.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LBC"
+    xmlns:behav1="clr-namespace:LBC.Behaviors"
+        xmlns:panes="clr-namespace:LBC.Views.Pane"
+		xmlns:viewModels="clr-namespace:LBC.ViewModels"
+    xmlns:enums="clr-namespace:TextEditLib.Enums;assembly=TextEditLib"
+		xmlns:icons="clr-namespace:LBC.Icons"
+    xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+        xmlns:behav="clr-namespace:FilterTreeViewLib.Behaviors;assembly=FilterTreeViewLib"
+		xmlns:views="clr-namespace:FilterTreeViewLib.Views;assembly=FilterTreeViewLib"
+		xmlns:conv="clr-namespace:FilterTreeViewLib.Converters;assembly=FilterTreeViewLib"
+    xmlns:lconv="clr-namespace:LBC.Converters"
+		xmlns:vm="clr-namespace:FilterTreeViewLib.ViewModels;assembly=FilterTreeViewLib" 
+    xmlns:conv1="clr-namespace:FilterTreeViewLib.User;assembly=FilterTreeViewLib" xmlns:Tools="clr-namespace:LBC.Tools" 
+    xmlns:avalonEdit="clr-namespace:TextEditLib;assembly=TextEditLib" xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    mc:Ignorable="d"
+		d:DataContext="{d:DesignInstance viewModels:Workspace, IsDesignTimeCreatable=True}"
+    ShowTitle="False"
+    WindowState = "Maximized"
+        Title="LBC" ResizeMode="CanResizeWithGrip">
+
+    <hc:Window.Resources>
+        <Style x:Key="toolTipStyle" TargetType="{x:Type ToolTip}">
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="HasDropShadow" Value="True" />
+            <Setter Property = "HorizontalOffset" Value="0"/>
+            <Setter Property = "VerticalOffset" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToolTip}">
+                        <Grid Background="Transparent">
+                            <Grid.Effect>
+                                <DropShadowEffect Color="Transparent" ShadowDepth="0" BlurRadius="10"/>
+                            </Grid.Effect>
+                            <Border Background="Black" Margin="0,0,0,0" CornerRadius="1"  Padding="0" BorderThickness="1">
+                                <ContentPresenter/>
+                            </Border>
+
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </hc:Window.Resources>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="23"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="header">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                <!-- 工具栏 -->
+                <ToolBarTray Background="Transparent">
+
+                    <ToolBar VerticalAlignment="Top" ClipToBounds="False" ToolBarTray.IsLocked="True" KeyboardNavigation.TabNavigation="None">
+                        <hc:SplitButton Command="{Binding Navigation.BackCommand}"  HorizontalAlignment="Stretch" Style="{StaticResource SplitButtonDefault.Small}" Background="Transparent" BorderBrush="Transparent" 
+                                         >
+                            <hc:SplitButton.Content>
+                                <Image Source="{DynamicResource Image_Back}" Width="16" Height="16" SnapsToDevicePixels="True"
+                                        >
+                                </Image>
+                            </hc:SplitButton.Content>
+                            <hc:SplitButton.DropDownContent>
+                                <ItemsControl ItemsSource="{Binding Navigation.SortedHistoryItems}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <MenuItem Header="{Binding DisplayText}" Command="{Binding DataContext.Navigation.DownCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}" IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </hc:SplitButton.DropDownContent>
+                        </hc:SplitButton>
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3" Command="{Binding Navigation.ForwardCommand}">
+                            <Image
+Height="16"
+SnapsToDevicePixels="True"
+Source="{DynamicResource Image_Forward}" />
+                        </Button>
+                        <Separator />
+                        <!-- 打开文件 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3"
+            ToolTip="新建文件" Command="{Binding NewCommand}">
+                            <Image
+                Height="16"
+                SnapsToDevicePixels="True"
+                Source="{DynamicResource Image_NewFile}" />
+                        </Button>
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3"
+            ToolTip="打开文件" Command="{Binding OpenCommand}" CommandParameter="1" >
+                            <Image
+                Height="16"
+                SnapsToDevicePixels="True"
+                Source="{DynamicResource Image_OpenFile}" />
+                        </Button>
+                        <!-- 打开文件夹 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3"
+            ToolTip="打开文件夹" Command="{Binding OpenProjectCommand}">
+                            <Image
+                Height="16"
+                SnapsToDevicePixels="True"
+                Source="{DynamicResource Image_Openproject}" />
+                        </Button>
+                        <Separator SnapsToDevicePixels="True" />
+                        <!-- 保存 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3"
+            ToolTip="保存" Command="{Binding ActiveDocument.SaveCommand}">
+                            <Image
+                Height="16"
+                SnapsToDevicePixels="True"
+                Source="{DynamicResource Image_Save}" />
+                        </Button>
+
+                        <!-- 另存为 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3"
+            ToolTip="另存为" Command="{Binding ActiveDocument.SaveAsCommand}">
+                            <Image
+                Height="16"
+                SnapsToDevicePixels="True"
+                Source="{DynamicResource Image_SaveAs}" />
+                        </Button>
+
+                        <!-- 全部保存 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3"
+            ToolTip="全部保存" Command="{Binding ActiveDocument.SaveAllCommand}">
+                            <Image
+                Height="14"
+                SnapsToDevicePixels="True"
+                Source="{DynamicResource Image_SaveAll}" />
+                        </Button>
+                        <Separator SnapsToDevicePixels="True"/>
+                        <!-- 复制 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3" Command="Copy">
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_Copy}" />
+                        </Button>
+
+                        <!-- 剪切 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3" Command="Cut">
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_Cut}" />
+                        </Button>
+
+                        <!-- 粘贴 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3" Command="Paste">
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_Paste}" />
+                        </Button>
+
+                        <!-- 删除 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3" Command="Delete">
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_Delete}" />
+                        </Button>
+                        <Separator SnapsToDevicePixels="True"/>
+                        <!-- 撤销 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3" Command="Undo">
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_Undo}" />
+                        </Button>
+
+                        <!-- 重做 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3" Command="Redo">
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_Redo}" />
+                        </Button>
+                        <!-- 注释 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+                            ToolTip="注释"
+            Padding="6,3" Command="{Binding ActiveDocument.CommentCommand}">
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_Comment}" />
+                        </Button>
+                        <!-- 取消注释 -->
+                        <Button Style="{StaticResource ButtonCustom}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+                            ToolTip="取消注释"
+            Padding="6,3" Command="{Binding ActiveDocument.UncommentCommand}">
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_Uncomment}" />
+                        </Button>
+                        <Separator SnapsToDevicePixels="True"/>
+                        <ToggleButton IsChecked="{Binding ActiveDocument.WordWrap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                  Command="{Binding ActiveDocument.ToggleEditorOptionCommand}" Style="{StaticResource ToggleButtonDefault}"
+                  CommandParameter="{x:Static enums:ToggleEditorOption.WordWrap}"
+                  Padding="6,3"                ToolTip="自动换行" 
+                  >
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_WordWrap}" />
+                        </ToggleButton>
+
+                        <ToggleButton IsChecked="{Binding ActiveDocument.ShowLineNumbers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                  Command="{Binding ActiveDocument.ToggleEditorOptionCommand}" Style="{StaticResource ToggleButtonDefault}"
+                  CommandParameter="{x:Static enums:ToggleEditorOption.ShowLineNumber}"
+                  Padding="6,3"                ToolTip="显示行号" >
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_ShowLineNumbers}" />
+                        </ToggleButton>
+
+                        <ToggleButton IsChecked="{Binding ActiveDocument.ShowEndOfLine, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                  Command="{Binding ActiveDocument.ToggleEditorOptionCommand}"
+                  CommandParameter="{x:Static enums:ToggleEditorOption.ShowEndOfLine}"
+                  Padding="6,3"                ToolTip="显示回车" Style="{StaticResource ToggleButtonDefault}" >
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_EndOfLine}" />
+                        </ToggleButton>
+                        <ToggleButton IsChecked="{Binding ActiveDocument.ShowSpaces, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                  Command="{Binding ActiveDocument.ToggleEditorOptionCommand}"
+                  CommandParameter="{x:Static enums:ToggleEditorOption.ShowSpaces}"
+                  Padding="6,3"                ToolTip="显示空格" Style="{StaticResource ToggleButtonDefault}">
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_Space}" />
+                        </ToggleButton>
+                        <ToggleButton IsChecked="{Binding ActiveDocument.ShowTabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                  Command="{Binding ActiveDocument.ToggleEditorOptionCommand}"
+                  CommandParameter="{x:Static enums:ToggleEditorOption.ShowTabs}"
+                  Padding="6,3"                ToolTip="显示tab" Style="{StaticResource ToggleButtonDefault}">
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource Image_Tabs}" />
+                        </ToggleButton>
+                        <Button Style="{StaticResource ButtonCustom}"
+                             BorderThickness="0" ToolTipService.InitialShowDelay="100"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Padding="6,3">
+                            <Button.ToolTip>
+                                <ToolTip Style="{StaticResource toolTipStyle}">
+                                    <StackPanel Width="402" Height="402">
+                                        <Tools:ColorPalette Width="402" Height="402" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </Button.ToolTip>
+                            <Image
+                        Height="16"
+                        SnapsToDevicePixels="True"
+                        Source="{DynamicResource 255颜色}" />
+                        </Button>
+                        <ComboBox
+                DisplayMemberPath="Name"
+                    behav1:SelectionChangedCommand.ChangedCommand="{Binding ActiveDocument.HighlightingChangeCommand}"
+                    ItemsSource="{Binding ActiveDocument.HighlightingDefinitions, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding ActiveDocument.HighlightingDefinition, UpdateSourceTrigger=PropertyChanged}"
+                MinWidth="100"
+                Margin="6,3"
+                ToolTipService.ShowOnDisabled="True"
+            />
+                    </ToolBar>
+                </ToolBarTray>
+            </StackPanel>
+        </Grid>
+
+        <DockingManager
+            Grid.Row="1"
+            x:Name="dockManager"
+			AutoHideDelay="0"
+		    ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
+		    AnchorablesSource="{Binding Tools}"
+		    DocumentsSource="{Binding Files}"
+			Theme="{Binding SelectedTheme.Item2}">
+
+            <DockingManager.LayoutItemTemplateSelector>
+                <panes:PanesTemplateSelector>
+                    <panes:PanesTemplateSelector.FileViewTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid xmlns:avalonEdits="http://icsharpcode.net/sharpdevelop/avalonedit">
+                                    <Grid.Resources>
+                                        <avalonEdits:TextEditorOptions x:Key="TextEditOptions" />
+                                    </Grid.Resources>
+                                    <avalonEdit:TextEdit
+						x:Name="textEditor"
+						Document="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
+						Options="{Binding TextOptions, FallbackValue={StaticResource TextEditOptions}}"
+						IsCommented="{Binding IsTextCommented}"
+         IsUnCommented="{Binding IsUnTextCommented}"
+                                        
+						FontSize="{Binding SizeUnitLabel.ScreenPoints, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						IsModified="{Binding IsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+						ShowLineNumbers="{Binding ShowLineNumbers}"
+						ScrollLine="{Binding ScrollLine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						SyntaxHighlighting="{Binding HighlightingDefinition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+						Completions="{Binding Completions, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+						OutputLineText="{Binding OutputLineText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+						OutputOffset="{Binding OutputOffset, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+						Outputbool1="{Binding Outputbool1, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+						Outputbool2="{Binding Outputbool2, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+						toolTipLang="{Binding toolTipLang, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                        Backforward="{Binding Backforward, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        CaretOffset="{Binding CaretOffset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                
+						WordWrap="{Binding WordWrap}">
+                                        <hc:Interaction.Triggers>
+                                            <hc:EventTrigger EventName="KeyDown">
+                                                <hc:EventToCommand PassEventArgsToCommand="True" Command="{Binding SetKeyDownChanged}" />
+                                            </hc:EventTrigger>
+                                            <hc:EventTrigger EventName="Drop">
+                                                <hc:EventToCommand Command="{Binding DragDropCommand, Mode=OneWay}"
+								PassEventArgsToCommand="True" />
+                                            </hc:EventTrigger>
+                                            <hc:EventTrigger EventName="TextChanged">
+                                                <hc:InvokeCommandAction Command="{Binding SetTextChanged}" />
+                                            </hc:EventTrigger>
+                                            <hc:EventTrigger EventName="CaretPositionChanged">
+                                                <hc:InvokeCommandAction Command="{Binding SetTextChanged}" />
+                                            </hc:EventTrigger>
+                                            <hc:EventTrigger EventName="MouseHover">
+                                                <hc:InvokeCommandAction Command="{Binding SetMouseHover}" />
+                                            </hc:EventTrigger>
+                                            <hc:EventTrigger EventName="MouseHoverStopped">
+                                                <hc:InvokeCommandAction Command="{Binding SetMouseHoverStopped}" />
+                                            </hc:EventTrigger>
+                                            <hc:EventTrigger EventName="PreviewKeyDown">
+                                                <hc:EventToCommand  PassEventArgsToCommand="True" Command="{Binding SetPreviewKeyDown}" />
+                                            </hc:EventTrigger>
+                                        </hc:Interaction.Triggers>
+                                    </avalonEdit:TextEdit>
+                                    <Rectangle Fill="{DynamicResource ScrollViewerRectBackground}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="17" Height="17"/>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </panes:PanesTemplateSelector.FileViewTemplate>
+                    <panes:PanesTemplateSelector.PropertiesViewTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <hc:TextBox hc:InfoElement.ShowClearButton="True" DockPanel.Dock="Top" VerticalAlignment="Center" x:Name="TB_SearcToolbox">
+                                    <hc:Interaction.Triggers>
+                                        <hc:EventTrigger EventName="TextChanged">
+                                            <hc:InvokeCommandAction Command="{Binding SetTBTextChanged}" CommandParameter="{Binding Text, ElementName=TB_SearcToolbox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </hc:EventTrigger>
+                                    </hc:Interaction.Triggers>
+                                </hc:TextBox>
+
+                                <ListBox x:Name="Propertylistbox" ItemsSource="{Binding FoldInfos}" 
+          DisplayMemberPath="DisplayName" 
+          SelectedValuePath="lineNumber"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 Style="{StaticResource ListBox.Small}"
+          >
+                                    <hc:Interaction.Triggers>
+                                        <hc:EventTrigger EventName="SelectionChanged">
+                                            <hc:InvokeCommandAction Command="{Binding ItemClickCommand}" CommandParameter="{Binding SelectedItem, ElementName=Propertylistbox}" />
+                                        </hc:EventTrigger>
+                                    </hc:Interaction.Triggers>
+                                </ListBox>
+
+                            </DockPanel>
+                        </DataTemplate>
+                    </panes:PanesTemplateSelector.PropertiesViewTemplate>
+                    <panes:PanesTemplateSelector.ExplorerViewTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.Resources>
+                                    <conv:LocationTypeToImageConverter x:Key="LocationTypeToImageConverter" />
+                                    <conv:SaveTypeToImageConverter x:Key="SaveTypeToImageConverter" />
+                                    <conv:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+                                    <conv:ItemTypeDisplayNameToTextConverter x:Key="ISolutionBaseItemToTextConverter"/>
+                                    <conv:BoolToVisibilityConverter x:Key="boolToHiddenVisibilityConverter" False="Hidden" True="Visible" />
+                                    <conv:InverseBooleanConverter  x:Key="InverseBooleanConverter" />
+                                    <conv:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+                                    <conv:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+                                    <!-- Use a proxy to bind items to root properties of this collection -->
+                                </Grid.Resources>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0"
+  >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <hc:TextBox Grid.Column="0"
+         Text="{Binding SearchString}"
+         hc:InfoElement.ShowClearButton="True"
+         x:Name="FilterTextBox"
+         behav:TextChangedCommand.ChangedCommand="{Binding SearchCommand}" 
+         IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+    >
+                                            <hc:TextBox.InputBindings>
+                                                <KeyBinding
+            Command="{Binding SearchCommand}"
+            Key="Enter" />
+                                            </hc:TextBox.InputBindings>
+                                        </hc:TextBox>
+
+                                        <Button Content="Search" Visibility="Collapsed"
+            Grid.Column="1"
+            Command="{Binding SearchCommand}"
+            CommandParameter="{Binding Text, ElementName=FilterTextBox}"
+            IsEnabled="{Binding IsProcessing, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            Margin="3" />
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <CheckBox Content="String is contained" Visibility="Collapsed"
+              IsChecked="{Binding IsStringContainedSearchOption}"
+              IsEnabled="{Binding IsProcessing, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+              Margin="3"
+              />
+                                    </Grid>
+                                </Grid>
+
+                                <ProgressBar  Height="2" Grid.Row="1" IsIndeterminate="True"
+         Visibility="{Binding IsProcessing, Converter={StaticResource boolToHiddenVisibilityConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TreeView Grid.Row="2"
+      Margin="3,0,3,3"
+      VerticalAlignment="Stretch"
+      DataContext="{Binding Root, UpdateSourceTrigger=PropertyChanged}"
+      ItemsSource="{Binding CountryRootItems, UpdateSourceTrigger=PropertyChanged}"
+                                        
+      x:Name="treeView"
+      VirtualizingPanel.IsVirtualizing="True"
+      VirtualizingPanel.VirtualizationMode="Recycling"
+      >
+                                    <TreeView.Resources>
+                                        <!-- Use a proxy to bind items to root properties of this collection -->
+                                        <views:BindingProxy x:Key="DataContextProxy"  Data="{Binding}" />
+                                    </TreeView.Resources>
+                                    <hc:Interaction.Triggers>
+                                        <hc:EventTrigger EventName="MouseDoubleClick">
+                                            <hc:InvokeCommandAction Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding SelectedItem, ElementName=treeView}"  />
+                                        </hc:EventTrigger>
+
+                                        <!--<hc:EventTrigger EventName="MouseLeftButtonDown">
+                                            <hc:InvokeCommandAction Command="{Binding vm.ItemClickedCommand,RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}" CommandParameter="{Binding}" />
+                                            </hc:EventTrigger>-->
+
+                                    </hc:Interaction.Triggers>
+                                    <TreeView.InputBindings>
+                                        <KeyBinding Key="Return" Command="{Binding OpenCommand}" CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
+                                    </TreeView.InputBindings>
+                                    <TreeView.ItemTemplate>
+                                        <HierarchicalDataTemplate DataType="{x:Type vm:MetaLocationViewModel}"
+                              ItemsSource="{Binding Children, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" >
+                                            <Grid xmlns:loc="clr-namespace:InplaceEditBoxLib.Local;assembly=InplaceEditBoxLib">
+                                                <Grid.ContextMenu>
+                                                    <ContextMenu  >
+                                                        <MenuItem Header="新建" ToolTip="新建">
+                                                            <MenuItem Header="目录" ToolTip="目录" Command="{Binding StartdirectoryCommand}" CommandParameter="{Binding}"/>
+                                                            <MenuItem Header="文件" ToolTip="文件" Command="{Binding StartFileCommand}" CommandParameter="{Binding}"/>
+                                                        </MenuItem>
+                                                        <MenuItem Command="{Binding StartRenameCommand}" CommandParameter="{Binding}"
+											  Header="重命名" ToolTip="重命名" />
+                                                        <Separator />
+                                                        <MenuItem Header="剪切" Command="{Binding CutCommand}" />
+                                                        <MenuItem Header="复制" Command="{Binding CopyCommand}" CommandParameter="{Binding}"/>
+                                                        <MenuItem Header="粘贴" Command="{Binding PasteCommand}" />
+                                                        <Separator />
+                                                        <MenuItem Command="{Binding ExplorerOpenCommand}" CommandParameter="{Binding Tag}"
+Header="在外部资源管理器打开" ToolTip="在外部资源管理器打开" />
+                                                        <MenuItem Command="{Binding DeleteCommand}" CommandParameter="{Binding}"
+Header="删除" ToolTip="删除" />
+                                                    </ContextMenu>
+                                                </Grid.ContextMenu>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Image Grid.Column="1"
+                   Width="16" >
+                                                    <Image.Source>
+                                                        <MultiBinding Converter="{StaticResource LocationTypeToImageConverter}">
+                                                            <Binding Path="TypeOfLocation"/>
+                                                            <Binding Path="LocalName"/>
+                                                        </MultiBinding>
+                                                    </Image.Source>
+                                                </Image>
+                                                <Image Grid.Column="0" Source="{Binding SaveType,Mode=TwoWay, Converter={StaticResource SaveTypeToImageConverter},UpdateSourceTrigger=PropertyChanged}"
+Width="12" Margin="0,0,5,0"/>
+                                                <StackPanel Grid.Column="2" Orientation="Vertical">
+                                                    <TextBlock  Text="{Binding LocalName, Mode=OneTime}" HorizontalAlignment="Left" Margin="5,0,0,0"
+       behav:HighlightTextBlockBehavior.Range="{Binding Range}" ToolTip="{Binding Tag, Mode=OneTime}" Visibility="{Binding IsRenaming, Converter={StaticResource BooleanToVisibilityConverter}}"
+/>
+                                                    <TextBox x:Name="renametextbox" Text="{Binding TextBoxValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="5,0,0,0"
+                               Visibility="{Binding IsRenaming, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                                                             
+                                                             conv1:FocusExtension.IsFocused="{Binding FocusTextBox, Mode=TwoWay}" >
+                                                        <hc:Interaction.Triggers>
+                                                            <hc:EventTrigger EventName="LostFocus">
+                                                                <hc:InvokeCommandAction Command="{Binding LostFocusCommand}" CommandParameter="{Binding}"/>
+                                                            </hc:EventTrigger>
+                                                        </hc:Interaction.Triggers>
+                                                        <TextBox.InputBindings>
+                                                            <KeyBinding Key="Return" Command="{Binding RenameCommand}" CommandParameter="{Binding}"/>
+                                                        </TextBox.InputBindings>
+                                                    </TextBox>
+                                                </StackPanel>
+                                                
+                                            </Grid>
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.ItemTemplate>
+                                    <TreeView.ItemContainerStyle>
+                                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemBaseStyle.Small}" >
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ID}" Value="1">
+                                                    <Setter Property="IsExpanded" Value="True" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <!--<Setter Property="conv1:TreeViewItemSingleClickBehavior.SingleClickCommand" Value="{Binding Data.ItemClickedCommand, Source={StaticResource DataContextProxy}}" />-->
+                                            <Setter Property="behav:TreeViewItemExpanded.Command" Value="{Binding Data.ExpandCommand, Mode=OneTime, Source={StaticResource DataContextProxy}}" />
+                                            <Setter Property="IsExpanded" Value="{Binding IsItemExpanded, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                            <Setter Property="IsSelected" Value="{Binding IsItemSelected}" />
+                                            <Setter Property="Padding" Value="8,0,0,0"/>
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+
+                                </TreeView>
+
+                                <Grid Grid.Row="3" Margin="3">
+                                    <TextBlock><InlineUIContainer>
+  <TextBlock Text="{Binding StatusStringResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </InlineUIContainer><Run Text=" "/><InlineUIContainer>
+  <TextBlock Text="{Binding CountSearchMatches, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </InlineUIContainer><Run Text=" 个匹配项"/></TextBlock>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </panes:PanesTemplateSelector.ExplorerViewTemplate>
+                    <panes:PanesTemplateSelector.ErrorViewTemplate>
+                        <DataTemplate>
+                            <Border/>
+                        </DataTemplate>
+                    </panes:PanesTemplateSelector.ErrorViewTemplate>
+                    <panes:PanesTemplateSelector.OutputViewTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding Controls}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ScrollViewer Height="50" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                            <ContentPresenter Content="{Binding}" />
+                                        </ScrollViewer>
+                                        
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </panes:PanesTemplateSelector.OutputViewTemplate>
+                    <panes:PanesTemplateSelector.GitChangesViewTemplate>
+                        <DataTemplate>
+                            <avalonEdit:TextEdit Name="textEditor1" Document="{Binding Document}"
+									   ShowLineNumbers="True"
+											IsReadOnly="True"
+                                                 TextChanged="TextEditor_TextChanged"
+									   SyntaxHighlighting="{Binding HighlightDef}"/>
+                        </DataTemplate>
+                    </panes:PanesTemplateSelector.GitChangesViewTemplate>
+                    <panes:PanesTemplateSelector.ToolboxViewTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <hc:TextBox hc:InfoElement.ShowClearButton="True" DockPanel.Dock="Top" VerticalAlignment="Center" x:Name="TB_SearchToolbox">
+                                    <hc:Interaction.Triggers>
+                                        <hc:EventTrigger EventName="TextChanged">
+                                            <hc:InvokeCommandAction Command="{Binding SetTBTextChanged}" CommandParameter="{Binding Text, ElementName=TB_SearchToolbox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </hc:EventTrigger>
+                                    </hc:Interaction.Triggers>
+                                </hc:TextBox>
+                                <ListBox x:Name="Toolboxlistbox" ItemsSource="{Binding ToolboxInfos}" 
+         DisplayMemberPath="DisplayName" 
+         SelectedValuePath="Geshi"
+									 dd:DragDrop.DropTargetAdornerBrush="Coral"
+									 dd:DragDrop.IsDragSource="True"
+             Style="{StaticResource ListBox.Small}"
+         >
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding ImagePath}" Width="16" Height="16" ToolTip="{Binding Geshi}"/>
+                                                <TextBlock Text="{Binding DisplayName}" Margin="10,0,0,0" ToolTip="{Binding Geshi}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </DockPanel>
+                        </DataTemplate>
+                    </panes:PanesTemplateSelector.ToolboxViewTemplate>
+                </panes:PanesTemplateSelector>
+            </DockingManager.LayoutItemTemplateSelector>
+
+            <DockingManager.LayoutItemContainerStyleSelector>
+                <panes:PanesStyleSelector>
+                    <panes:PanesStyleSelector.ToolStyle>
+                        <Style TargetType="{x:Type LayoutAnchorableItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}" />
+                            <Setter Property="CanHide" Value="True" />
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                            <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+                            <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}" />
+                        </Style>
+                    </panes:PanesStyleSelector.ToolStyle>
+                    <panes:PanesStyleSelector.FileStyle>
+                        <Style TargetType="{x:Type LayoutItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}" />
+                            <Setter Property="ToolTip" Value="{Binding Model.FilePath}" />
+                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                        </Style>
+                    </panes:PanesStyleSelector.FileStyle>
+                </panes:PanesStyleSelector>
+            </DockingManager.LayoutItemContainerStyleSelector>
+            <DockingManager.LayoutUpdateStrategy>
+                <panes:LayoutInitializer />
+            </DockingManager.LayoutUpdateStrategy>
+
+            <LayoutRoot>
+                <LayoutPanel Orientation="Horizontal">
+                    <LayoutPanel Orientation="Vertical">
+                        <LayoutDocumentPane/>
+
+                        <LayoutAnchorablePaneGroup DockHeight="128" Orientation="Horizontal">
+                            <LayoutAnchorablePane Name="ErrorsPane"/>
+                            <LayoutAnchorablePane Name="OutputPane"/>
+                        </LayoutAnchorablePaneGroup>
+                    </LayoutPanel>
+
+                    <LayoutAnchorablePaneGroup DockWidth="256" Orientation="Vertical">
+                        <LayoutAnchorablePane Name="ExplorerPane" DockHeight="2*"/>
+                        <LayoutAnchorablePane Name="PropertiesPane"/>
+                    </LayoutAnchorablePaneGroup>
+                </LayoutPanel>
+            </LayoutRoot>
+        </DockingManager>
+
+        <Border Grid.Row="2" Background="{DynamicResource StatusBarBackground}">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Path Stroke="White" StrokeThickness="1" VerticalAlignment="Bottom" Margin="7.5,0,8,5">
+                        <Path.Data>
+                            <RectangleGeometry Rect="0,0,12,10"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <SkewTransform AngleX="-15">
+                            </SkewTransform>
+                        </Path.RenderTransform>
+                    </Path>
+                    <TextBlock Text="Ready" Foreground="{DynamicResource StatusBarForeground}" VerticalAlignment="Center" Margin="0,0,6,1" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</hc:Window>
